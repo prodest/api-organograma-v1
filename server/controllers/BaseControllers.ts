@@ -72,7 +72,7 @@ export class BasePersistController<T extends BaseModel> implements IPersistContr
     }
 
     public query(req: Request, res: Response, next?: Function): JSData.JSDataPromise<IResultSearch<T>> {
-        return this.collection.paginatedQuery(req.body, req.params.page,req.params.limit)
+        return this.collection.paginatedQuery(req.body, req.query.page,req.query.limit)
             .then((result) => {
                 res.status(200)
                 return result

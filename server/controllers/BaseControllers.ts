@@ -2,7 +2,6 @@ import * as JSData from 'js-data'
 import { APIError, IResultSearch, IDAO, BaseModel } from '../models'
 import { Request, Response } from 'express'
 
-
 export interface IPersistController<T extends BaseModel> {
     collection: IDAO<T>
     find(req: Request, res: Response, next?: Function): JSData.JSDataPromise<T>

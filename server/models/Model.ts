@@ -1,6 +1,7 @@
 import * as JSData from 'js-data'
 import * as shortid from 'shortid'
 import { IModel } from '../interfaces/IModel'
+import {APIError} from './APIError'
 
 /**
  * Model
@@ -27,23 +28,9 @@ export class BaseModel implements IModel {
   }
 }
 
-// const Document = store.defineResource('document')
-
-// // bypass the data store
-// adapter.create(Document, { author: 'John' })
-// .then(function (document) {
-//   document; // { id: 5, author: 'John' }
-// });
-
-// // Normally you would just go through the data store
-// Document.create({ author: 'John' })
-// .then(function (document) {
-//   document; // { id: 5, author: 'John' }
-// });
-
 export class DAO<T extends BaseModel> implements IDAO<T> {
-  collection: JSData.DSResourceDefinition<T>
-  joins: any[]
+  public collection: JSData.DSResourceDefinition<T>
+  public joins: any[]
 
   constructor(currentModel: JSData.DSResourceDefinition<T>, joins: any = []) {
         if (!currentModel) {
@@ -85,7 +72,8 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
      * @memberOf UserDAO
      */
     public create(obj: T): JSData.JSDataPromise<T> {
-        throw this.collection.create(obj)
+        throw new APIError('Nao implementado', 500)
+        // return this.collection.create(obj)
     }
 
     /**

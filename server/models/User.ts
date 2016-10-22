@@ -12,11 +12,17 @@ export class User extends BaseModel {
         super(obj)
         this.name = obj.name || null
     }
+
 }
 
 export class UserDAO extends DAO<User> {
     constructor(store: JSData.DS) {
         const users = store.defineResource<User>('users')
         super(users,[])
+    }
+
+    public create(obj: User): JSData.JSDataPromise<User> {
+        let user = new User(obj)
+        return this.collection.create(user)
     }
 }

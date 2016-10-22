@@ -42,7 +42,7 @@ export class PersistRouter<M extends BaseModel, C extends BasePersistController<
         this.router.delete('/:id', (req, res, next) => this.respond(ctrl.delete(req, res, next),res))
 
         /* POST lista paginada com os registros da classe corrente em controller. */
-        // this.router.post('/query', (req, res, next) => this.respond(ctrl.query(req, res, next),res))
+        this.router.post('/query', (req, res, next) => this.respond(ctrl.query(req, res, next),res))
     }
 
     public getRouter(): Router {

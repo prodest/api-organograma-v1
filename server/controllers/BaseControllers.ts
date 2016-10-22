@@ -2,7 +2,6 @@ import * as JSData from 'js-data'
 import { APIError, IResultSearch, IDAO, BaseModel } from '../models'
 import { Request, Response } from 'express'
 
-
 export interface IPersistController<T extends BaseModel> {
     collection: IDAO<T>
     find(req: Request, res: Response, next?: Function): JSData.JSDataPromise<T>
@@ -72,15 +71,15 @@ export class BasePersistController<T extends BaseModel> implements IPersistContr
             })
     }
 
-    // public query(req: Request, res: Response, next?: Function): Bluebird<IResultSearch<T>> {
-    //     return this.collection.paginatedQuery(req.body, req.params.page,req.params.limit)
-    //         .then((result) => {
-    //             res.status(200)
-    //             return result
-    //         })
-    //         .catch(error => {
-    //             throw new APIError(error,400)
-    //         })
-    // }
+    public query(req: Request, res: Response, next?: Function): JSData.JSDataPromise<IResultSearch<T>> {
+        return this.collection.paginatedQuery(req.body, req.params.page,req.params.limit)
+            .then((result) => {
+                res.status(200)
+                return result
+            })
+            .catch(error => {
+                throw new APIError(error,400)
+            })
+    }
 
 }

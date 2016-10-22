@@ -1,5 +1,7 @@
 ///<reference path="../typings/index.d.ts"/>
+import * as JSData from 'js-data'
 import * as dotenv from 'dotenv'
+import {adapter} from './config/rethinkdb'
 /**
  * busca as variaveis de ambiente no arquivo .env
  */
@@ -12,7 +14,6 @@ import * as favicon from 'serve-favicon'
 import * as logger from 'morgan'
 import * as cookieParser from 'cookie-parser'
 import * as bodyParser from 'body-parser'
-import { rethinkdbconfig } from './config/rethinkdb'
 /**
  * importacao das rotas
  */
@@ -56,7 +57,9 @@ class Application {
     /**
      * chamada no index para chamar todas as rotas
      */
-    app = routes.main.callRoutes(app, rethinkdbconfig)
+    const store = new JSData.DS()
+    store.registerAdapter('redis', adapter, { default: true })
+    app = routes.main.callRoutes(app, store)
     // catch 404 and forward to error handler
     app.use((req: Request, res: Response, next: Function) => {
       let err: any = new Error('Not Found')

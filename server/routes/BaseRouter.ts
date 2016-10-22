@@ -1,10 +1,10 @@
 import { Response, Router } from 'express'
-import { APIError, BaseModel, Model } from '../models'
+import { APIError, BaseModel } from '../models'
 import { BasePersistController } from '../controllers/BaseControllers'
-import * as Bluebird from 'bluebird'
+import * as JSData from 'js-data'
 
 export class BaseRouter {
-    respond (t: Bluebird<any>, res: Response): Bluebird<Response> {
+    respond (t: JSData.JSDataPromise<any>, res: Response): JSData.JSDataPromise<Response> {
         return t
         .then((u) => res.json(u))
         .catch((err: APIError) => {
@@ -17,7 +17,7 @@ export class PersistRouter<M extends BaseModel, C extends BasePersistController<
     controller: BasePersistController<M>
     router: Router
 
-    constructor (models: Model, controller: BasePersistController<M>) {
+    constructor (store: JSData.DS, controller: BasePersistController<M>) {
         super()
         this.controller = controller
         this.router = Router()
@@ -42,7 +42,7 @@ export class PersistRouter<M extends BaseModel, C extends BasePersistController<
         this.router.delete('/:id', (req, res, next) => this.respond(ctrl.delete(req, res, next),res))
 
         /* POST lista paginada com os registros da classe corrente em controller. */
-        this.router.post('/query', (req, res, next) => this.respond(ctrl.query(req, res, next),res))
+        // this.router.post('/query', (req, res, next) => this.respond(ctrl.query(req, res, next),res))
     }
 
     public getRouter(): Router {

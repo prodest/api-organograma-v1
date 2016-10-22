@@ -1,8 +1,7 @@
+import * as JSData from 'js-data'
 import * as shortid from 'shortid'
 import { IModel } from '../interfaces/IModel'
-import { IModelsSchema } from '../models/Schemas'
-import * as thinky from 'thinky'
-import * as Bluebird from 'bluebird'
+
 /**
  * Model
  */
@@ -20,6 +19,7 @@ export class BaseModel implements IModel {
   updatedUserId: string
   updatedAt: Date
   constructor(obj: IModel) {
+    this.id = obj.id || lib.generateId()
     this.name = obj.name || null
     this.userId = obj.userId || null
     this.updatedUserId = obj.updatedUserId || null
@@ -27,38 +27,30 @@ export class BaseModel implements IModel {
   }
 }
 
-export const baseModel = (T: thinky.Thinky) => {
-  return {
-    id: T.type.string().default(() => shortid.generate()),
-    name: T.type.string().required(),
-    userId: T.type.string(),
-    insertedAt: T.type.date().default(new Date(Date.now())),
-    updatedUserId: T.type.string(),
-    updatedAt: T.type.date().default(new Date(Date.now()))
-  }
-}
+// const Document = store.defineResource('document')
+
+// // bypass the data store
+// adapter.create(Document, { author: 'John' })
+// .then(function (document) {
+//   document; // { id: 5, author: 'John' }
+// });
+
+// // Normally you would just go through the data store
+// Document.create({ author: 'John' })
+// .then(function (document) {
+//   document; // { id: 5, author: 'John' }
+// });
 
 export class DAO<T extends BaseModel> implements IDAO<T> {
-  collection: thinky.Model<any,any,any>
-  db: IModelsSchema
-  joins: any
+  collection: JSData.DSResourceDefinition<T>
+  joins: any[]
 
-  constructor(models: IModelsSchema, currentModel: thinky.Model<any,any,any>, joins: any = {}) {
+  constructor(currentModel: JSData.DSResourceDefinition<T>, joins: any = []) {
         if (!currentModel) {
           throw Error('classe não instanciada corretamente')
         }
         this.joins = joins
         this.collection = currentModel
-        this.db = models
-  }
-
-  public isValidKey(model: thinky.Model<any,any,any> , obj: IModel): Bluebird<boolean> {
-    if (!obj) {
-      return Bluebird.resolve(false)
-    }
-    return model.get(obj.id).run().then((reg) => {
-      return !!reg
-    })
   }
 
   /**
@@ -68,8 +60,8 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
    * 
    * @memberOf UserDAO
    */
-    public findAll(): Bluebird<Array<thinky.Document<any,any,any>>> {
-        return this.collection.getJoin(this.joins).run()
+    public findAll(): JSData.JSDataPromise<Array<T>> {
+        return this.collection.findAll()
     }
 
     /**
@@ -80,8 +72,8 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
      * 
      * @memberOf UserDAO
      */
-    public find(id: string): Bluebird<thinky.Document<any,any,any>> {
-        return this.collection.get(id).getJoin(this.joins).run()
+    public find(id: string): JSData.JSDataPromise<T> {
+        return this.collection.find(id)
     }
 
     /**
@@ -92,8 +84,8 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
      * 
      * @memberOf UserDAO
      */
-    public create(obj: T): Bluebird<T> {
-        throw Error('nao implementado')
+    public create(obj: T): JSData.JSDataPromise<T> {
+        throw this.collection.create(obj)
     }
 
     /**
@@ -105,9 +97,8 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
      * 
      * @memberOf UserDAO
      */
-    public update(id: string, obj: T): Bluebird<T> {
-        return this.collection.get(obj.id).run()
-        .then((curObj) => curObj.merge(obj).saveAll(this.joins) )
+    public update(id: string, obj: T): JSData.JSDataPromise<T> {
+        return this.collection.update(id,obj)
     }
 
     /**
@@ -118,12 +109,13 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
      * 
      * @memberOf UserDAO
      */
-    public delete(id: string): Bluebird<boolean> {
-        return this.find(id)
-        .then((c: any) => c.delete())
-        .then((err) => {
-          throw err
-        })
+    public delete(id: string): JSData.JSDataPromise<boolean> {
+        return this.collection.destroy(id)
+        .then(() => true)
+        .catch(() => false)
+        // .then((err) => {
+        //   throw err
+        // })
     }
 
   /**
@@ -136,35 +128,35 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
    * 
    * @memberOf UserDAO
    */
-  paginatedQuery(search: Object, page?: number, limit?: number, order?: string[]): Bluebird<IResultSearch<T>> {
-        let _page: number = page || 1
-        let _limit: number = limit || 10
-        let _order: string[] = []
-        return this.collection.filter(search).count().execute()
-                   .then((countResult) => {
-                     return this.collection.filter(search)
-                                .orderBy(_order)
-                                .limit(_limit)
-                                .skip(((_page - 1) * _limit))
-                                .run()
-                                .then((results) => {
-                                      return {
-                                        page : _page,
-                                        total: countResult,
-                                        result: results
-                                      } as IResultSearch<T>
-                                })
-                   })
-  }
-}
+//   paginatedQuery(search: Object, page?: number, limit?: number, order?: string[]): Bluebird<IResultSearch<T>> {
+//         let _page: number = page || 1
+//         let _limit: number = limit || 10
+//         let _order: string[] = []
+//         return this.collection.filter(search).count().execute()
+//                    .then((countResult) => {
+//                      return this.collection.filter(search)
+//                                 .orderBy(_order)
+//                                 .limit(_limit)
+//                                 .skip(((_page - 1) * _limit))
+//                                 .run()
+//                                 .then((results) => {
+//                                       return {
+//                                         page : _page,
+//                                         total: countResult,
+//                                         result: results
+//                                       } as IResultSearch<T>
+//                                 })
+//                    })
+//   }
+ }
 
 export interface IDAO<T extends BaseModel> {
-    create(t: T): Bluebird<T>
-    find(id: string): Bluebird<thinky.Document<any,any,any>>
-    findAll(): Bluebird<Array<thinky.Document<any,any,any>>>
-    update(id: string, t: T): Bluebird<T>
-    delete(id: string): Bluebird<boolean>
-    paginatedQuery(search: Object, page?: number, limit?: number): Bluebird<IResultSearch<T>>
+    create(t: T): JSData.JSDataPromise<T>
+    find(id: string): JSData.JSDataPromise<T>
+    findAll(): JSData.JSDataPromise<T[]>
+    update(id: string, t: T): JSData.JSDataPromise<T>
+    delete(id: string): JSData.JSDataPromise<boolean>
+    // paginatedQuery(search: Object, page?: number, limit?: number): Bluebird<IResultSearch<T>>
 }
 
 export interface IResultSearch<T extends BaseModel> {

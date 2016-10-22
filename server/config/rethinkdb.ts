@@ -1,4 +1,3 @@
-const JSData = require('js-data')
 const DSRethinkDBAdapter = require('js-data-rethinkdb')
 // Create an instance of RethinkDBAdapter
 export const adapter = new DSRethinkDBAdapter({
@@ -9,5 +8,3 @@ export const adapter = new DSRethinkDBAdapter({
     // authKey: process.env.DB_AUTH_KEY
   }
 })
-
-

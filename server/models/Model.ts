@@ -13,32 +13,32 @@ export let lib = {
 }
 
 export class BaseModel implements IModel {
-  id: string
-  name: string
-  insertedAt: Date
-  userId: string
-  updatedUserId: string
-  updatedAt: Date
-  constructor(obj: IModel) {
-    this.id = obj.id || lib.generateId()
-    this.name = obj.name || null
-    this.userId = obj.userId || null
-    this.updatedUserId = obj.updatedUserId || null
-    this.updatedAt = obj.updatedAt || null
-  }
+    id: string
+    name: string
+    insertedAt: Date
+    userId: string
+    updatedUserId: string
+    updatedAt: Date
+    constructor(obj: IModel) {
+        this.id = obj.id || lib.generateId()
+        this.name = obj.name || null
+        this.userId = obj.userId || null
+        this.updatedUserId = obj.updatedUserId || null
+        this.updatedAt = obj.updatedAt || null
+    }
 }
 
 export class DAO<T extends BaseModel> implements IDAO<T> {
   public collection: JSData.DSResourceDefinition<T>
   public joins: any[]
 
-  constructor(currentModel: JSData.DSResourceDefinition<T>, joins: any = []) {
+    constructor(currentModel: JSData.DSResourceDefinition<T>, joins: any = []) {
         if (!currentModel) {
-          throw Error('classe não instanciada corretamente')
+            throw Error('classe não instanciada corretamente')
         }
         this.joins = joins
         this.collection = currentModel
-  }
+    }
 
   /**
    * busca todos os usuários
@@ -99,44 +99,47 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
      */
     public delete(id: string): JSData.JSDataPromise<boolean> {
         return this.collection.destroy(id)
-        .then(() => true)
-        .catch(() => false)
-        // .then((err) => {
-        //   throw err
-        // })
+            .then(() => true)
+            .catch(() => false)
+            // .then((err) => {
+            //   throw err
+            // })
     }
 
-  /**
-   * 
-   * realize search query using limits and page control
-   * @param {Object} search
-   * @param {number} [page]
-   * @param {number} [limit]
-   * @returns {Bluebird<IResultSearch<IUser>>}
-   * 
-   * @memberOf UserDAO
-   */
-//   paginatedQuery(search: Object, page?: number, limit?: number, order?: string[]): Bluebird<IResultSearch<T>> {
-//         let _page: number = page || 1
-//         let _limit: number = limit || 10
-//         let _order: string[] = []
-//         return this.collection.filter(search).count().execute()
-//                    .then((countResult) => {
-//                      return this.collection.filter(search)
-//                                 .orderBy(_order)
-//                                 .limit(_limit)
-//                                 .skip(((_page - 1) * _limit))
-//                                 .run()
-//                                 .then((results) => {
-//                                       return {
-//                                         page : _page,
-//                                         total: countResult,
-//                                         result: results
-//                                       } as IResultSearch<T>
-//                                 })
-//                    })
-//   }
- }
+    /**
+     * 
+     * realize search query using limits and page control
+     * @param {Object} search
+     * @param {number} [page]
+     * @param {number} [limit]
+     * @returns {Bluebird<IResultSearch<IUser>>}
+     * 
+     * @memberOf UserDAO
+     */
+    paginatedQuery(search: Object, page?: number, limit?: number, order?: string[]): JSData.JSDataPromise<IResultSearch<T>> {
+        let _page: number = page || 1
+        let _limit: number = limit || 10
+        let _order: string[] = []
+        let params = {
+            where: search,
+            orderBy: _order,
+            offset: _limit * (_page - 1),
+            limit: _limit
+        }
+
+        return this.collection.findAll({ where: search })
+            .then((countResult) => {
+                return this.collection.findAll(params)
+                    .then((results) => {
+                        return {
+                            page : _page,
+                            total: countResult.length,
+                            result: results
+                        } as IResultSearch<T>
+                    })
+            })
+    }
+}
 
 export interface IDAO<T extends BaseModel> {
     create(t: T): JSData.JSDataPromise<T>
@@ -144,7 +147,7 @@ export interface IDAO<T extends BaseModel> {
     findAll(): JSData.JSDataPromise<T[]>
     update(id: string, t: T): JSData.JSDataPromise<T>
     delete(id: string): JSData.JSDataPromise<boolean>
-    // paginatedQuery(search: Object, page?: number, limit?: number): Bluebird<IResultSearch<T>>
+    paginatedQuery(search: Object, page?: number, limit?: number): JSData.JSDataPromise<IResultSearch<T>>
 }
 
 export interface IResultSearch<T extends BaseModel> {

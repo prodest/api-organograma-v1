@@ -120,14 +120,16 @@ export class DAO<T extends BaseModel> implements IDAO<T> {
         let _page: number = page || 1
         let _limit: number = limit || 10
         let _order: string[] = []
-        let params = {
-            where: search,
+        let queryFilter = {
+            where: search
+        }
+        let params = Object.assign({}, queryFilter, {
             orderBy: _order,
             offset: _limit * (_page - 1),
             limit: _limit
-        }
+        })
 
-        return this.collection.findAll({ where: search })
+        return this.collection.findAll(queryFilter)
             .then((countResult) => {
                 return this.collection.findAll(params)
                     .then((results) => {

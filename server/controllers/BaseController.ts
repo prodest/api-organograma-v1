@@ -1,13 +1,14 @@
 import { APIError, Model, IModelsDAO, IModelsSchema, IResultSearch, IDAO, BaseModel } from '../models'
 import { Request, Response } from 'express'
 import * as Bluebird from 'bluebird'
+import * as thinky from 'thinky'
 
 export interface IPersistController<T extends BaseModel> {
     db: IModelsDAO
     collection: IDAO<T>
     models: IModelsSchema
-    find(req: Request, res: Response, next?: Function): Bluebird<T>
-    findAll(req: Request, res: Response, next?: Function): Bluebird<T[]>
+    find(req: Request, res: Response, next?: Function): Bluebird<thinky.Document<any, any, any>>
+    findAll(req: Request, res: Response, next?: Function): Bluebird<Array<thinky.Document<any, any, any>>>
     create(req: Request, res: Response, next?: Function): Bluebird<T>
     update(req: Request, res: Response, next?: Function): Bluebird<T>
     delete(req: Request, res: Response, next?: Function): Bluebird<boolean>
@@ -22,7 +23,7 @@ export class BasePersistController<T extends BaseModel> implements IPersistContr
         this.collection = collection
         this.models = model.entities
     }
-    public find(req: Request, res: Response, next?: Function): Bluebird<T> {
+    public find(req: Request, res: Response, next?: Function): Bluebird<thinky.Document<any,any,any>> {
         return this.collection.find(req.params.id)
             .then(regs => {
                 res.status(200)
@@ -33,7 +34,7 @@ export class BasePersistController<T extends BaseModel> implements IPersistContr
             })
     }
 
-    public findAll(req: Request, res: Response, next?: Function): Bluebird<T[]> {
+    public findAll(req: Request, res: Response, next?: Function): Bluebird<Array<thinky.Document<any, any, any>>> {
         return this.collection.findAll()
             .then(regs => {
                 res.status(200)

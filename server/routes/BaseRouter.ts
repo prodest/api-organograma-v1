@@ -1,4 +1,3 @@
-import { UserController } from '../controllers/UserController'
 import { Router } from 'express'
 
 export class BaseRouter implements IRouter {

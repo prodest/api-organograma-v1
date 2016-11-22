@@ -8,4 +8,12 @@ export class UserRouter {
     constructor () {
         let ctrl = new UserController()
     }
+
+    public routers() {
+        this.router.get('/', (req,res,nex) => res.json('ok'))
+    }
+
+    public getRouter(): Router {
+        return this.router
+    }
 }

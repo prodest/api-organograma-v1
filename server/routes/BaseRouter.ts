@@ -1,13 +1,11 @@
 import { UserController } from '../controllers/UserController'
 import { Router } from 'express'
-import { BaseRouter, IRouter } from './BaseRouter'
 
-export class UserRouter extends BaseRouter implements IRouter {
-    controller: UserController
+export class BaseRouter implements IRouter {
+    router: Router
+
     constructor() {
-        super()
-        let ctrl = new UserController()
-        this.routers()
+        this.router = Router()
     }
 
     public routers() {
@@ -17,4 +15,9 @@ export class UserRouter extends BaseRouter implements IRouter {
     public getRouter(): Router {
         return this.router
     }
+}
+
+export interface IRouter {
+    router: Router
+    getRouter(): Router
 }

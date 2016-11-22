@@ -1,5 +1,5 @@
 import { UserRouter } from './UserRouter'
-import {Request,Response, Application} from 'express'
+import {Request,Response, Application, Router} from 'express'
 
 export namespace main {
     export const callRoutes = (app: Application): Application => {

@@ -6,8 +6,7 @@
         "experimentalDecorators":true,
         "target": "es6",
         "module": "commonjs",
-        "sourceMap": true,
-        "files": ["server/**/*.ts"]
+        "sourceMap": true
     },
     "exclude": [
         "node_modules",

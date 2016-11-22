@@ -7,9 +7,9 @@ import { UserRouter } from './UserRouter'
 import * as express from 'express'
 
 export namespace main {
-    export const callRoutes = (app: express.Application, store: JSData.DS): express.Application => {
+    export const callRoutes = (app: express.Application): express.Application => {
         // let models = new Model(rethinkdbconfig)
-        app.use('/users', new UserRouter(store).getRouter())
+        app.use('/users', new UserRouter().getRouter())
         // app.use('/vehicles', new VehicleRouter(models).getRouter())
         // app.use('/vehicletypes', new VehicleTypeRouter(models).getRouter())
         // app.use('/cargotypes', new CargoTypeRouter(models).getRouter())

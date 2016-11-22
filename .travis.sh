@@ -1,4 +1,4 @@
 #!/bin/bash
-
-npm -i 
+yarn 
+gulp ts
 docker build -t $DOCKER_IMAGE .

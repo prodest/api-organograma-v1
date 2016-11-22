@@ -1,14 +1,20 @@
 import { UserController } from '../controllers/UserController'
-import { PersistRouter } from './BaseRouter'
-import { User } from '../models'
 import { Router } from 'express'
+import { BaseRouter, IRouter } from './BaseRouter'
 
-export class UserRouter extends PersistRouter<User, UserController> {
+export class UserRouter extends BaseRouter implements IRouter {
     controller: UserController
-    router: Router
+    constructor() {
+        super()
+        let ctrl = new UserController()
+        this.routers()
+    }
 
-    constructor (store: JSData.DS) {
-        let ctrl = new UserController(store)
-        super(store, ctrl)
+    public routers() {
+        this.router.get('/', (req, res, nex) => res.json('ok'))
+    }
+
+    public getRouter(): Router {
+        return this.router
     }
 }

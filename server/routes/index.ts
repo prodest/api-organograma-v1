@@ -1,9 +1,10 @@
 import { OrgaosRouter } from './OrgaosRouter'
-import {Request,Response, Application, Router} from 'express'
+import {Request,Response, Application} from 'express'
+import {path} from '../config/appConfig'
 
 export namespace main {
     export const callRoutes = (app: Application): Application => {
-        app.use('/orgaos', new OrgaosRouter().getRouter())
+        app.use(`${path}/orgaos`, new OrgaosRouter().getRouter())
         app.use('/ping', (req: Request,res: Response) => res.json('pong'))
         return app
     }

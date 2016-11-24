@@ -28,7 +28,7 @@ export class OrgaosController {
                     if (err) {
                         reject(err)
                     }
-                    resolve(result.BuscarOrgaosResult.OrgaoInfo)
+                    resolve(result.BuscarOrgaoPorIdResult)
                 })
             })
         })

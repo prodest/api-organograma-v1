@@ -4,7 +4,7 @@ import {path} from '../config/appConfig'
 
 export namespace main {
     export const callRoutes = (app: Application): Application => {
-        app.use(`${path}/orgaos`, new OrgaosRouter().getRouter())
+        app.use(`/${path}`, new OrgaosRouter().getRouter())
         app.use('/ping', (req: Request,res: Response) => res.json('pong'))
         return app
     }

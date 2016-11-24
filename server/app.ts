@@ -1,6 +1,5 @@
 
 import * as dotenv from 'dotenv'
-import {adapter} from './config/rethinkdb'
 /**
  * busca as variaveis de ambiente no arquivo .env
  */

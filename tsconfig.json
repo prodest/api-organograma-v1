@@ -4,9 +4,14 @@
     "compilerOptions": {
         "emitDecoratorMetadata": true,
         "experimentalDecorators":true,
-        "target": "es6",
+        "target": "es2015",
         "module": "commonjs",
-        "sourceMap": true
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "noImplicitThis" : true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters" : false
     },
     "exclude": [
         "node_modules",

@@ -46,7 +46,7 @@
     "gulp-tslint": "^7.0.1",
     "gulp-typescript": "^3.0.2",
     "gulp-watch": "^4.3.10",
-    "mongoose": "^4.3.6",
+    "mongoose": "^4.13.21",
     "pow-mongodb-fixtures": "^0.14.0",
     "should": "^11.1.1",
     "should-http": "0.0.4",

@@ -645,8 +645,8 @@ cookie@0.3.1:
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
 cookiejar@^2.0.6:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.0.tgz#86549689539b6d0e269b6637a304be508194d898"
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.4.tgz#ee669c1fea2cf42dc31585469d193fef0d65771b"
 
 core-js@^2.4.0:
   version "2.4.1"
@@ -788,7 +788,7 @@ depd@~1.1.0:
 
 deprecated@^0.0.1:
   version "0.0.1"
-  resolved "http://registry.npmjs.org/deprecated/-/deprecated-0.0.1.tgz#f9c9af5464afa1e7a971458a8bdef2aa94d5bb19"
+  resolved "https://registry.npmjs.org/deprecated/-/deprecated-0.0.1.tgz#f9c9af5464afa1e7a971458a8bdef2aa94d5bb19"
 
 destroy@~1.0.4:
   version "1.0.4"
@@ -1324,7 +1324,7 @@ glob-watcher@^0.0.6:
 
 glob2base@^0.0.12:
   version "0.0.12"
-  resolved "http://registry.npmjs.org/glob2base/-/glob2base-0.0.12.tgz#9d419b3e28f12e83a362164a277055922c9c0d56"
+  resolved "https://registry.npmjs.org/glob2base/-/glob2base-0.0.12.tgz#9d419b3e28f12e83a362164a277055922c9c0d56"
   dependencies:
     find-index "^0.1.1"
 
@@ -1648,7 +1648,7 @@ has-color@^0.1.7:
 
 has-flag@^1.0.0:
   version "1.0.0"
-  resolved "http://registry.npmjs.org/has-flag/-/has-flag-1.0.0.tgz#9d9e793165ce017a00f00418c43f942a7b1d11fa"
+  resolved "https://registry.npmjs.org/has-flag/-/has-flag-1.0.0.tgz#9d9e793165ce017a00f00418c43f942a7b1d11fa"
 
 has-gulplog@^0.1.0:
   version "0.1.0"
@@ -1854,7 +1854,7 @@ is-obj@^1.0.0:
 
 is-posix-bracket@^0.1.0:
   version "0.1.1"
-  resolved "http://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
+  resolved "https://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
 
 is-primitive@^2.0.0:
   version "2.0.0"
@@ -3925,7 +3925,7 @@ tildify@^1.0.0:
 
 time-stamp@^1.0.0:
   version "1.0.1"
-  resolved "http://registry.npmjs.org/time-stamp/-/time-stamp-1.0.1.tgz#9f4bd23559c9365966f3302dbba2b07c6b99b151"
+  resolved "https://registry.npmjs.org/time-stamp/-/time-stamp-1.0.1.tgz#9f4bd23559c9365966f3302dbba2b07c6b99b151"
 
 timed-out@^2.0.0:
   version "2.0.0"
@@ -4072,7 +4072,7 @@ uid-number@~0.0.6:
 
 unc-path-regex@^0.1.0:
   version "0.1.2"
-  resolved "http://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
+  resolved "https://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
 
 underscore.string@^3.3.4:
   version "3.3.4"
